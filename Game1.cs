@@ -19,12 +19,19 @@ public class Game1 : Game
 
     private SimpleAnimation _guyAttack;
 
+    private  Texture2D _movingCloud;
+
     //game position variables
     private Vector2 _chestPosition = new Vector2(350,225);
 
     private Vector2 _knightPosition = new Vector2(180, 215);
 
     private Vector2 _guyPosition = new Vector2(0, 175);
+
+    private Vector2 _cloudStartingPosition = new Vector2(350, 35);
+
+    //other variables
+    private float _moveSpeed = 15f;
 
     public Game1()
     {
@@ -55,6 +62,8 @@ public class Game1 : Game
         _knightRun = new SimpleAnimation(Content.Load<Texture2D>("Run"), 71, 84, 7, 7);
 
         _guyAttack = new SimpleAnimation(Content.Load<Texture2D>("Attack1"), 200, 200, 6, 6);
+
+        _movingCloud = Content.Load<Texture2D>("Cloud7");
     }
 
     protected override void Update(GameTime gameTime)
@@ -68,6 +77,10 @@ public class Game1 : Game
         _knightRun.Update(gameTime);
 
         _guyAttack.Update(gameTime);
+
+        //Moving the cloud to the right automatically
+        float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+       _cloudStartingPosition.X += _moveSpeed * delta;
 
         base.Update(gameTime);
     }
@@ -90,6 +103,10 @@ public class Game1 : Game
 
         //Guy animation
         _guyAttack.Draw(_spriteBatch, _guyPosition, SpriteEffects.None);
+
+        //automatic moving cloud
+        _spriteBatch.Draw(_movingCloud, _cloudStartingPosition, Color.White);
+
         _spriteBatch.End();
 
 
