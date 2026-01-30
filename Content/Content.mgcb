@@ -73,6 +73,13 @@
 /processorParam:TextureFormat=Color
 /build:Cloud7.png
 
+#begin Font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font.spritefont
+
 #begin MovingCloud.png
 /importer:TextureImporter
 /processor:TextureProcessor

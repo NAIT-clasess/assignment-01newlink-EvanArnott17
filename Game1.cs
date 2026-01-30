@@ -21,6 +21,8 @@ public class Game1 : Game
 
     private  Texture2D _movingCloud;
 
+    private SpriteFont _font;
+
     //game position variables
     private Vector2 _chestPosition = new Vector2(350,225);
 
@@ -30,8 +32,12 @@ public class Game1 : Game
 
     private Vector2 _cloudStartingPosition = new Vector2(350, 35);
 
+    private Vector2 _fontPosition = new Vector2(25, 50);
+
     //other variables
     private float _moveSpeed = 15f;
+
+    private string _text = "Monogame Assignment 1";
 
     public Game1()
     {
@@ -64,6 +70,8 @@ public class Game1 : Game
         _guyAttack = new SimpleAnimation(Content.Load<Texture2D>("Attack1"), 200, 200, 6, 6);
 
         _movingCloud = Content.Load<Texture2D>("Cloud7");
+
+        _font = Content.Load<SpriteFont>("Font");
     }
 
     protected override void Update(GameTime gameTime)
@@ -106,6 +114,9 @@ public class Game1 : Game
 
         //automatic moving cloud
         _spriteBatch.Draw(_movingCloud, _cloudStartingPosition, Color.White);
+
+        //Drawing the sprite font text
+        _spriteBatch.DrawString(_font, _text, _fontPosition, Color.Black);
 
         _spriteBatch.End();
 
