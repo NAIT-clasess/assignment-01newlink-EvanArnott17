@@ -15,8 +15,16 @@ public class Game1 : Game
 
     private Texture2D _staticImage;
 
+    private SimpleAnimation _knightRun;
+
+    private SimpleAnimation _guyAttack;
+
     //game position variables
-    private Vector2 _wagonPosition = new Vector2(350,225);
+    private Vector2 _chestPosition = new Vector2(350,225);
+
+    private Vector2 _knightPosition = new Vector2(180, 215);
+
+    private Vector2 _guyPosition = new Vector2(0, 175);
 
     public Game1()
     {
@@ -43,6 +51,10 @@ public class Game1 : Game
         // TODO: use this.Content to load your game content here
         _background = Content.Load<Texture2D>("Background");
         _staticImage = Content.Load<Texture2D>("Chest");
+
+        _knightRun = new SimpleAnimation(Content.Load<Texture2D>("Run"), 71, 84, 7, 7);
+
+        _guyAttack = new SimpleAnimation(Content.Load<Texture2D>("Attack1"), 200, 200, 6, 6);
     }
 
     protected override void Update(GameTime gameTime)
@@ -51,6 +63,11 @@ public class Game1 : Game
             Exit();
 
         // TODO: Add your update logic here
+
+        //Animation Updates
+        _knightRun.Update(gameTime);
+
+        _guyAttack.Update(gameTime);
 
         base.Update(gameTime);
     }
@@ -66,8 +83,13 @@ public class Game1 : Game
         _spriteBatch.Draw(_background, Vector2.Zero, Color.White);
 
         //Drawing the static image
-        _spriteBatch.Draw(_staticImage, _wagonPosition, Color.White);
+        _spriteBatch.Draw(_staticImage, _chestPosition, Color.White);
 
+        //knight animation
+        _knightRun.Draw(_spriteBatch, _knightPosition, SpriteEffects.None);
+
+        //Guy animation
+        _guyAttack.Draw(_spriteBatch, _guyPosition, SpriteEffects.None);
         _spriteBatch.End();
 
 
