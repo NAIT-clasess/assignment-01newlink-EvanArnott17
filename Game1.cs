@@ -23,6 +23,8 @@ public class Game1 : Game
 
     private SpriteFont _font;
 
+    private Texture2D _moveableObject;
+
     //game position variables
     private Vector2 _chestPosition = new Vector2(350,225);
 
@@ -34,10 +36,14 @@ public class Game1 : Game
 
     private Vector2 _fontPosition = new Vector2(25, 50);
 
+    private Vector2 _playerLocation = new Vector2(30, 100);
+
     //other variables
     private float _moveSpeed = 15f;
 
     private string _text = "Monogame Assignment 1";
+
+    private Vector2 _playerInput;  
 
     public Game1()
     {
@@ -53,6 +59,8 @@ public class Game1 : Game
         _graphics.PreferredBackBufferWidth = 576;
         _graphics.PreferredBackBufferHeight = 320;
         _graphics.ApplyChanges();
+
+        _playerInput = Vector2.Zero;
 
         base.Initialize();
     }
@@ -72,6 +80,8 @@ public class Game1 : Game
         _movingCloud = Content.Load<Texture2D>("Cloud7");
 
         _font = Content.Load<SpriteFont>("Font");
+
+        _moveableObject = Content.Load<Texture2D>("Moveable");
     }
 
     protected override void Update(GameTime gameTime)
@@ -89,6 +99,50 @@ public class Game1 : Game
         //Moving the cloud to the right automatically
         float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
        _cloudStartingPosition.X += _moveSpeed * delta;
+
+       //Moving based on player input
+       KeyboardState state = Keyboard.GetState();
+       _playerInput = Vector2.Zero;
+
+        if (state.IsKeyDown(Keys.Down))
+        {
+            _playerInput += new Vector2(0,1);
+        }
+        if (state.IsKeyDown(Keys.Up))
+        {
+            _playerInput += new Vector2(0,-1);
+        }
+        if (state.IsKeyDown(Keys.Left))
+        {
+            _playerInput += new Vector2(-1, 0);
+        }
+        if (state.IsKeyDown(Keys.Right))
+        {
+            _playerInput += new Vector2(1, 0);
+        }
+        if (state.IsKeyDown(Keys.S))
+        {
+            _playerInput += new Vector2(0,1);
+        }
+        if (state.IsKeyDown(Keys.W))
+        {
+            _playerInput += new Vector2(0,-1);
+        }
+        if (state.IsKeyDown(Keys.A))
+        {
+            _playerInput += new Vector2(-1, 0);
+        }
+        if (state.IsKeyDown(Keys.D))
+        {
+            _playerInput += new Vector2(1, 0);
+        }
+
+        _playerLocation += _playerInput* 4;
+
+        //Binding player movement to screen size
+        _playerLocation.X = MathHelper.Clamp(_playerLocation.X, 0, 576-64);
+        _playerLocation.Y = MathHelper.Clamp(_playerLocation.Y, 0, 320-64);
+        
 
         base.Update(gameTime);
     }
@@ -117,6 +171,9 @@ public class Game1 : Game
 
         //Drawing the sprite font text
         _spriteBatch.DrawString(_font, _text, _fontPosition, Color.Black);
+
+        //Drawing the moveable object
+        _spriteBatch.Draw(_moveableObject, _playerLocation, Color.White);
 
         _spriteBatch.End();
 
